@@ -2,6 +2,8 @@ import { Schema, model, type Document } from "mongoose";
 
 export interface VendorServiceDocument extends Document {
   vendorId: string;
+  vendorEmail: string;
+  vendorPhone: string;
   vendorName?: string;
   serviceName: string;
   description?: string;
@@ -18,6 +20,8 @@ export interface VendorServiceDocument extends Document {
 const VendorServiceSchema = new Schema<VendorServiceDocument>(
   {
     vendorId: { type: String, required: true, index: true },
+    vendorEmail: { type: String, required: true, trim: true },
+    vendorPhone: { type: String, required: true, trim: true },
     vendorName: { type: String, trim: true },
     serviceName: { type: String, required: true, trim: true },
     description: { type: String, trim: true },

@@ -1,6 +1,8 @@
 import { z } from "zod";
 
 const baseVendorServiceSchema = z.object({
+  vendorEmail: z.string().email(),
+  vendorPhone: z.string().min(1),
   vendorName: z.string().min(1).optional(),
   serviceName: z.string().min(1),
   description: z.string().optional(),
