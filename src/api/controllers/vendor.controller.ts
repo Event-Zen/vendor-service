@@ -221,3 +221,44 @@ export async function updateVendorServiceAvailability(
     next(err);
   }
 }
+
+export async function getAllServicesForAdmin(req: Request, res: Response, next: NextFunction) {
+  try {
+    const data = await VendorService.find({}).sort({ createdAt: -1 });
+
+    res.json({
+      success: true,
+      count: data.length,
+      data,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function updateVendorServiceStatus(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { id } = req.params;
+    const { isActive, status } = req.body;
+
+    const doc = await VendorService.findById(id);
+    if (!doc) {
+      const err = new Error("Vendor service not found");
+      (err as any).statusCode = 404;
+      throw err;
+    }
+
+    if (isActive !== undefined) doc.isActive = isActive;
+    // @ts-ignore - assuming status might exist or be added to schema later for better moderation
+    if (status !== undefined) doc.status = status;
+
+    await doc.save();
+
+    res.json({
+      success: true,
+      data: doc,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
