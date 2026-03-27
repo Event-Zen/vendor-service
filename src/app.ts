@@ -38,13 +38,13 @@ export function createApp() {
 
   app.use("/health", healthRouter);
 
-  // Public list for service page, with optional date/category/city filters.
-  app.get("/api/vendor-services", listVendorServices);
-  app.get("/api/vendor-services/:id", getVendorServiceById);
-
   // Admin moderation endpoints
   app.get("/api/vendor-services/admin", requireAuth, requireRole("admin", "ADMIN"), getAllServicesForAdmin);
   app.patch("/api/vendor-services/:id/status", requireAuth, requireRole("admin", "ADMIN"), updateVendorServiceStatus);
+
+  // Public list for service page, with optional date/category/city filters.
+  app.get("/api/vendor-services", listVendorServices);
+  app.get("/api/vendor-services/:id", getVendorServiceById);
 
   // Vendor dashboard endpoints.
   app.get(
